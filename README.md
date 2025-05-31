@@ -7,6 +7,12 @@ A comprehensive TypeScript program for Solana devnet that creates SPL tokens and
 ### Core Token Operations
 - **SPL Token Creation**: Create fungible tokens with custom decimals and initial supply
 - **Token Distribution**: BPS-based percentage distribution with automatic ATA creation
+- **Token Metadata**: Create rich metadata using Metaplex Token Metadata program
+
+### Metaplex Integration
+- **Token Metadata Creation**: Add name, symbol, and image to tokens
+- **Standard Compliance**: Full SPL Token + Metadata standard support
+- **Umi Client**: Modern Metaplex tooling for metadata operations
 
 ### Raydium AMM Integration
 - **OpenBook Market Creation**: Automated market creation using Raydium SDK v1
@@ -45,6 +51,11 @@ SOL_AMOUNT=0.5
 
 # AMM settings
 SLIPPAGE_TOLERANCE=1  # 1%
+
+# Token metadata (Metaplex)
+TOKEN_NAME="My Demo Token"
+TOKEN_SYMBOL="MDT"
+TOKEN_IMAGE_URI=https://arweave.net/your-image-uri
 ```
 
 ### Getting Devnet SOL
@@ -120,19 +131,42 @@ const swapResult = await ammManager.swapTokens(
 );
 ```
 
+### Token Metadata Usage
+
+```typescript
+// Create token with metadata in one workflow
+const tokenProgram = new SolanaTokenProgram(connection, payer);
+
+// Step 1: Create the token mint
+const tokenMint = await tokenProgram.createToken(9, 1000000);
+
+// Step 2: Add metadata using Metaplex Token Metadata
+const metadataSignature = await tokenProgram.createTokenMetadata(
+  'My Awesome Token',                    // name
+  'MAT',                                 // symbol
+  'A really cool token with metadata',   // description
+  'https://arweave.net/image-uri',       // image URI (optional)
+  'https://mytoken.com'                  // external URL (optional)
+);
+
+// Step 3: Retrieve metadata (verification)
+const metadata = await tokenProgram.getTokenMetadata();
+```
+
 ## 🔧 Project Structure
 
 ```
 labs-init-sol-token/
 ├── src/
-│   ├── index.ts           # Main demo workflow
-│   ├── tokenProgram.ts    # SPL token operations
-│   ├── raydiumAMM.ts      # Raydium AMM integration
-│   └── utils.ts           # Utility functions
-├── dist/                  # Compiled JavaScript
-├── .env.example           # Environment template
-├── package.json           # Dependencies and scripts
-└── tsconfig.json          # TypeScript configuration
+│   ├── index.ts              # Main demo workflow
+│   ├── tokenProgram.ts       # SPL token operations + metadata
+│   ├── raydiumAMM.ts         # Raydium AMM integration
+│   ├── metadata-example.ts   # Metadata creation examples
+│   └── utils.ts              # Utility functions
+├── dist/                     # Compiled JavaScript
+├── .env.example              # Environment template
+├── package.json              # Dependencies and scripts
+└── tsconfig.json             # TypeScript configuration
 ```
 
 ## ⚠️ Important Notes

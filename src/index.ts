@@ -1,4 +1,4 @@
-import { Keypair, clusterApiUrl, PublicKey, Connection } from '@solana/web3.js';
+import { PublicKey, Connection } from '@solana/web3.js';
 import { SolanaTokenProgram } from './tokenProgram';
 import { RaydiumAMMManager } from './raydiumAMM';
 import { loadPayerKeypair, loadRecipientKeypair, loadConfiguration  } from './utils';
@@ -31,6 +31,29 @@ async function main() {
       throw new Error('Token creation failed. Please check your configuration and network connection.');
     }
     console.log(`Token created with mint: ${tokenMint.toString()}\n`);
+
+    // Step 1.5: Create token metadata
+    console.log('=== STEP 1.5: Creating Token Metadata ===');
+    try {
+      const metadataSignature = await tokenProgram.createTokenMetadata(
+        cfg.tokenName || 'Demo Token',
+        cfg.tokenSymbol || 'DEMO',
+        cfg.tokenImageUri || 'https://arweave.net/placeholder-image-uri',
+      );
+      console.log(`Token metadata created with signature: ${metadataSignature}\n`);
+    } catch (error) {
+      console.error('Error creating token metadata:', error);
+      console.log('Continuing with token distribution...\n');
+    }
+    try {
+      const metadata = await tokenProgram.getTokenMetadata();
+      console.log(`✅ Metadata verified for mint: ${tokenMint.toString()}`);
+      console.log(`📄 Metadata.exists ${metadata.exists}`);
+      console.log(`📄 Metadata.publicKey ${metadata.publicKey.toString()}`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.log(`⚠️  Could not fetch metadata (this is normal): ${errorMessage}`);
+    }
 
     // Step 2: Create new account and distribute tokens/SOL
     // Load or generate recipient account
@@ -118,6 +141,8 @@ async function main() {
     console.error('Error in main execution:', error);
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 // Export for testing
 export {

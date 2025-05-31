@@ -6,9 +6,7 @@ import {
   VersionedTransaction,
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
-import {
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
   Liquidity,
   LiquidityPoolKeys,
@@ -31,6 +29,7 @@ import {
 } from "@raydium-io/raydium-sdk";
 import BN from "bn.js";
 
+////////////////////////////////////////////////////////////////////////////////
 // Use the actual SDK type
 export type RaydiumPoolKeys = LiquidityPoolKeys;
 
@@ -70,7 +69,7 @@ export class RaydiumAMMManager {
     baseDecimal: number = 9,
     quoteDecimal: number = 9,
     lotSize: number = 1,
-    tickSize: number = 0.01,
+    tickSize: number = 0.01
   ): Promise<PublicKey> {
     try {
       console.log("Creating OpenBook market...");
@@ -95,7 +94,7 @@ export class RaydiumAMMManager {
 
       // Build and send transaction
       // Don't use lookup tables on devnet as they may not exist
-      const isDevnet = this.connection.rpcEndpoint.includes('devnet');
+      const isDevnet = this.connection.rpcEndpoint.includes("devnet");
       const transactions = await buildSimpleTransaction({
         connection: this.connection,
         makeTxVersion: TxVersion.V0,
@@ -120,7 +119,6 @@ export class RaydiumAMMManager {
       throw error;
     }
   }
-
 
   /**
    * Create a AMM pool using Raydium SDK V1
@@ -214,7 +212,7 @@ export class RaydiumAMMManager {
 
       // Build and send transaction
       // Don't use lookup tables on devnet as they may not exist
-      const isDevnet = this.connection.rpcEndpoint.includes('devnet');
+      const isDevnet = this.connection.rpcEndpoint.includes("devnet");
       const transactions = await buildSimpleTransaction({
         makeTxVersion: TxVersion.V0,
         payer: this.payer.publicKey,
@@ -252,7 +250,7 @@ export class RaydiumAMMManager {
   async addLiquidity(
     poolKeys: RaydiumPoolKeys,
     baseAmount: number,
-    quoteAmount: number,
+    quoteAmount: number
   ): Promise<string[]> {
     try {
       console.log("Adding liquidity to pool...");
@@ -314,7 +312,7 @@ export class RaydiumAMMManager {
 
       // Build and send transaction
       // Don't use lookup tables on devnet as they may not exist
-      const isDevnet = this.connection.rpcEndpoint.includes('devnet');
+      const isDevnet = this.connection.rpcEndpoint.includes("devnet");
       const transactions = await buildSimpleTransaction({
         connection: this.connection,
         makeTxVersion: TxVersion.V0,
@@ -426,7 +424,7 @@ export class RaydiumAMMManager {
 
       // Build and send transaction
       // Don't use lookup tables on devnet as they may not exist
-      const isDevnet = this.connection.rpcEndpoint.includes('devnet');
+      const isDevnet = this.connection.rpcEndpoint.includes("devnet");
       const transactions = await buildSimpleTransaction({
         connection: this.connection,
         makeTxVersion: TxVersion.V0,
@@ -531,7 +529,7 @@ export class RaydiumAMMManager {
 
       // Build and send transaction
       // Don't use lookup tables on devnet as they may not exist
-      const isDevnet = this.connection.rpcEndpoint.includes('devnet');
+      const isDevnet = this.connection.rpcEndpoint.includes("devnet");
       const transactions = await buildSimpleTransaction({
         connection: this.connection,
         makeTxVersion: TxVersion.V0,
@@ -575,6 +573,8 @@ export class RaydiumAMMManager {
       throw error;
     }
   }
+
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Helper method to send and confirm transactions with proper typing
@@ -620,6 +620,9 @@ export class RaydiumAMMManager {
     }
   }
 
+  /**
+   * Format AMM keys by address for V4 pools
+   */
   private async formatAmmKeysByAddr(addr: PublicKey): Promise<ApiPoolInfoV4> {
     const account = await this.connection.getAccountInfo(addr);
     if (account === null) throw Error(" get id info error ");

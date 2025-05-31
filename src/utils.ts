@@ -84,5 +84,9 @@ export function loadConfiguration() {
     distributionBps: parseInt(process.env.DISTRIBUTION_BPS || "2500"),
     solAmount: parseFloat(process.env.SOL_AMOUNT || "2"),
     slippageTolerance: parseFloat(process.env.SLIPPAGE_TOLERANCE || "1"),
+    // Token metadata properties
+    tokenName: process.env.TOKEN_NAME || "Demo Token",
+    tokenSymbol: process.env.TOKEN_SYMBOL || "DEMO",
+    tokenImageUri: process.env.TOKEN_IMAGE_URI || "https://arweave.net/placeholder-image-uri",
   };
 }
