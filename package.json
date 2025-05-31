@@ -1,0 +1,38 @@
+{
+  "name": "solana-token-raydium-program",
+  "version": "1.0.0",
+  "description": "Solana program for token creation and Raydium AMM integration",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@raydium-io/raydium-sdk": "^1.3.1-beta.58",
+    "@solana/spl-token": "^0.3.9",
+    "@solana/web3.js": "^1.87.6",
+    "bn.js": "^5.2.1",
+    "bs58": "^6.0.0",
+    "decimal.js": "^10.4.3",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.5",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.10.0",
+    "jest": "^29.7.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
+  },
+  "keywords": [
+    "solana",
+    "blockchain",
+    "token",
+    "raydium",
+    "amm"
+  ],
+  "author": "",
+  "license": "MIT"
+}
