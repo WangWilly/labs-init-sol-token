@@ -88,5 +88,10 @@ export function loadConfiguration() {
     tokenName: process.env.TOKEN_NAME || "Demo Token",
     tokenSymbol: process.env.TOKEN_SYMBOL || "DEMO",
     tokenImageUri: process.env.TOKEN_IMAGE_URI || "https://arweave.net/placeholder-image-uri",
+    tokenExternalUrl: process.env.TOKEN_EXTERNAL_URL || "https://example.com",
+    // Program launcher properties
+    programId: process.env.PROGRAM_ID || "11111111111111111111111111111111",
+    initialTokenPrice: parseFloat(process.env.INITIAL_TOKEN_PRICE || "0.001"),
+    maxTokenSupply: parseInt(process.env.MAX_TOKEN_SUPPLY || "1000000"),
   };
 }
